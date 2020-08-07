@@ -4,6 +4,8 @@ document.getElementById("stats").style.display="none";
 var holes=document.querySelectorAll(".h");
 var moles=document.querySelectorAll(".mole");
 var super_moles=document.querySelectorAll(".super");
+var bombs=document.querySelectorAll(".bomb");
+
 var tempHole;
 var seconds=0,minutes=0;
 var score=0;
@@ -16,6 +18,7 @@ function Start()
 
 document.getElementById("game").addEventListener("click",timing);
 document.getElementById("game").addEventListener("click",mole_movement);
+
 
 var timeLimit=1;
 
@@ -83,33 +86,37 @@ function randomSuperMole(holes)
     lastSuperHole=superMole;
     return superMole;
 }
-    
+
+var hole_mole, super_hole, bomb_hole;
 
 function mole_movement(){
     const time=randomT(500,1000);
-    const hole=randomHole(holes);
-    const super_hole=randomSuperMole(holes);
+    hole_mole=randomHole(holes);
+    super_hole=randomSuperMole(holes);
+    bomb_hole=randomSuperMole(holes);
 
     for(var check=0;check<moles.length;check++)
     {
         moles[check].addEventListener("click",hit);
         super_moles[check].addEventListener("click",superhit);
+        bombs[check].addEventListener("click",bomb_hit);
     }
 
     document.getElementById("game").removeEventListener("click",mole_movement);
 
-    if(hole==super_hole)
+    if(hole_mole==super_hole || hole_mole==bomb_hole || super_hole==bomb_hole)
     {
         mole_movement();
     }
     else{
-        hole.classList.add('play');
+        hole_mole.classList.add('play');
         super_hole.classList.add('play2');
-    
+        bomb_hole.classList.add('playbomb');
 
     setTimeout(()=> {
-        hole.classList.remove('play');
+        hole_mole.classList.remove('play');
         super_hole.classList.remove('play2');
+        bomb_hole.classList.remove('playbomb');
         if(minutes<timeLimit)
           mole_movement();
     },time*1);
@@ -136,4 +143,16 @@ function superhit()
     score+=2;
     document.getElementById("scores").innerHTML=score;
 
+}
+
+
+function bomb_hit()
+{
+    for(var check2=0;check2<moles.length;check2++)
+    {
+        bombs[check2].removeEventListener("click",bomb_hit);
+    }   
+    this.classList.remove('playbomb');
+    score-=5;
+    document.getElementById("scores").innerHTML=score;
 }
