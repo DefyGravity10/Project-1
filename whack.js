@@ -1,5 +1,4 @@
-document.getElementById("incorrect").style.display="none";                  
-document.getElementById("finished").style.display="none";
+                document.getElementById("finished").style.display="none";
 document.getElementById("stats").style.display="none";
 
 var holes=document.querySelectorAll(".h");
