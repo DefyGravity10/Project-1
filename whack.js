@@ -115,3 +115,26 @@ function mole_movement(){
           mole_movement();
     },time*1);
 }}
+
+function hit()
+{
+    for(var check=0;check<moles.length;check++)
+    {
+        moles[check].removeEventListener("click",hit);
+    }
+    this.classList.remove('play');
+    score++;
+    document.getElementById("scores").innerHTML=score;
+}
+
+function superhit()
+{
+    for(var check=0;check<moles.length;check++)
+    {
+        super_moles[check].removeEventListener("click",superhit);
+    }
+    this.classList.remove('play2');
+    score+=2;
+    document.getElementById("scores").innerHTML=score;
+
+}
