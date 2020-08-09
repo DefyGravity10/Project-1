@@ -10,18 +10,33 @@
     </header>
 
     <main>
+        <div id="gameHeader">
+            <h2>WHACK-A-MOLE!</h2>
+        </div>
         <div id="home"> 
-        <h2>Welcome to WHACK-A-MOLE!</h2>
-        <p></p>
-        <h2>Select difficulty!!</h2>
-        <p></p>
-        <input class="button" type="button" value="START" onclick="Start()">
-        <p>Good Luck!!</p>
+        <h2>Select Difficulty!!</h2>
+        <input class="button" type="button" value="AMATEUR" onclick="Start(1)">
+        <input class="button" type="button" value="INTERMEDIATE" onclick="Start(2)">
+        <input class="button" type="button" value="LEGENDARY" onclick="Start(3)">
+
+
+        <div id="Instructions">
+            <h2>INSTRUCTIONS</h2>
+            <p>Whack all the moles you possibly can! </p>
+            <p>A normal mole gets 1 point</p>
+            <p>A super mole gets you 2 points</p>
+            <p>Beware of the bomb, as it gets you a negative 5</p>
+            <p>You have ONE minute on the clock</p>
+            <p>Difficulty varies between how fast the moles go back into their moles after peeping</p>
+            <p class="luck">GOOD LUCK!!!</p>
+        </div>
         </div>
   
+    <div id="mainArea">
         <div id="stats">
-          <p class="time"><strong>00:</strong><strong id="minutes">00</strong><strong>:</strong><strong id="seconds">00</strong></p>
-          <p class="score"><strong>Score: <strong id="scores">0</strong></p>
+            <div class="time"><strong>TIME: 00:</strong><strong id="minutes">00</strong><strong>:</strong><strong id="seconds">00</strong></div>
+            <div class="score"><strong>SCORE: <strong id="scores">0</strong></div>
+            <div class="highscore"><strong>HIGHSCORE: </strong><strong id="highscore">0</strong></div>
         </div>
         <div id="game">
             <div class="h 1">
@@ -70,8 +85,27 @@
                 <div class="bomb"></div>
             </div>
         </div>
-        <div id="finished">
+    </div>
+        <div id="isHigh">
+            <p>YOU'VE SET A NEW HIGH SCORE!</p>
         </div>
+        <div id="finished">
+            <p>I DEEM YOUR PERFORMANCE:</p>
+            <h2 id="performance"></h2>
+            <input class="button" type="button" value="Next" onclick="generate_leaderboard()";>
+        </div>
+        <div id="leaderboard">
+            <h2>The 5 highest scores of </h2><h2 id="level"></h2> <h2> have been displayed below</h2>
+            <h1>LEADERBOARD!!</h1>
+            <ol>
+            <li id="000"></li>
+            <li id="001"></li>
+            <li id="002"></li>
+            <li id="003"></li>
+            <li id="004"></li>
+            </ol>
+            <p>DID YOU MAKE IT IN??</p>
+          </div>
         <script src="whack.js"></script>
     </main>
   </body> 
