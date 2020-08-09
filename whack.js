@@ -24,6 +24,13 @@ localStorage.setItem("besta",JSON.stringify(crr));
 localStorage.setItem("besti",JSON.stringify(drr));
 localStorage.setItem("bestl",JSON.stringify(err));
 
+var sound=new Audio();                                                      //Creating audio elements for sound effects in the game
+sound.src="whackSound.mp3";
+var explode=new Audio();
+explode.src="Explosion.mp3";
+var sound1=new Audio();
+sound1.src="GameOver.mp3";
+
 function Start(a)
 {
     document.getElementById("gameHeader").style.display="block";
@@ -35,14 +42,19 @@ function Start(a)
     {
         peep_minTime=600;
         peep_maxtime=1500;
+        highscore=crr[0];
     }
     else if(a==2){
         peep_minTime=500;
         peep_maxtime=900;
+        highscore=drr[0];
+
     }
     else{
         peep_minTime=400;
         peep_maxtime=650;
+        highscore=err[0];
+
     }
 }
 
@@ -53,11 +65,12 @@ var timeLimit=1;
 
 function timing()                                                           
 {
+  document.getElementById("game").removeEventListener("click",timing);
   myvar=setInterval(ttiming, 1000);
 }
 
 function ttiming(){    
-  document.getElementById("game").removeEventListener("click",timing);                                                     
+                                                       
   seconds++;
   if(highscore<score)
   {
@@ -159,6 +172,7 @@ function mole_movement(){
 
 function hit()
 {
+    sound.play();
     for(var check=0;check<moles.length;check++)
     {
         moles[check].removeEventListener("click",hit);
@@ -170,6 +184,7 @@ function hit()
 
 function superhit()
 {
+    sound.play();
     for(var check=0;check<moles.length;check++)
     {
         super_moles[check].removeEventListener("click",superhit);
@@ -182,6 +197,7 @@ function superhit()
 
 function bomb_hit()
 {
+    explode.play();
     for(var check2=0;check2<moles.length;check2++)
     {
         bombs[check2].removeEventListener("click",bomb_hit);
@@ -192,6 +208,7 @@ function bomb_hit()
 }
 
 function finished(){
+    sound1.play();
     document.getElementById("gameHeader").style.display="none";
     document.getElementById("header").style.display="block";
     document.getElementById("finished").style.display="block";
