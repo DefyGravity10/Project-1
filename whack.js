@@ -1,23 +1,23 @@
-document.getElementById("finished").style.display="none";
+document.getElementById("finished").style.display="none";                   //Hiding elements not essential for home page
 document.getElementById("mainArea").style.display="none";
 document.getElementById("isHigh").style.display="none";
 document.getElementById("leaderboard").style.display="none";
 document.getElementById("gameHeader").style.display="none";
 
-var holes=document.querySelectorAll(".h");
+var holes=document.querySelectorAll(".h");                                  //Arrays conatining division objects corresponding to moles, bombs etc
 var moles=document.querySelectorAll(".mole");
 var super_moles=document.querySelectorAll(".super");
 var bombs=document.querySelectorAll(".bomb");
 
-var tempHole;
-var seconds=0,minutes=0;
-var score=0;
-var peep_maxtime,peep_minTime;
-var diffi;
-var highscore=0;
+var tempHole;                                                               //To store the latest hole(div) of display
+var seconds=0,minutes=0;                                                    //Seconds, minutes variable for the timer
+var score=0;                                                                //Score
+var peep_maxtime,peep_minTime;                                              //Time bounds for peep action by moles
+var diffi;                                                                  //Represents difficulty(1-3)
+var highscore=0;                                                            //To store Highscore
 var isHigh=false;
 
-var crr=[0,0,0,0,0];
+var crr=[0,0,0,0,0];                                                        //Used this block to locally store highest score arrays with respect to difficulty selected
 var drr=[0,0,0,0,0];
 var err=[0,0,0,0,0];
 localStorage.setItem("besta",JSON.stringify(crr));
@@ -31,7 +31,7 @@ explode.src="Explosion.mp3";
 var sound1=new Audio();
 sound1.src="GameOver.mp3";
 
-function Start(a)
+function Start(a)                                                           //Function for initializing required variables before the game timer starts
 {
     document.getElementById("gameHeader").style.display="block";
     diffi=a;
@@ -58,12 +58,12 @@ function Start(a)
     }
 }
 
-document.getElementById("game").addEventListener("click",timing);
-document.getElementById("game").addEventListener("click",mole_movement);
+document.getElementById("game").addEventListener("click",timing);               //Calls function timing(for the timer) when clicked on game board
+document.getElementById("game").addEventListener("click",mole_movement);        //Calls function meant for the peeping action of the moles
 
-var timeLimit=1;
+var timeLimit=1;                                                                //Sets 1 minute time limit for the game
 
-function timing()                                                           
+function timing()                                                               // Function for the timer
 {
   document.getElementById("game").removeEventListener("click",timing);
   myvar=setInterval(ttiming, 1000);
@@ -72,11 +72,7 @@ function timing()
 function ttiming(){    
                                                        
   seconds++;
-  if(highscore<score)
-  {
-      highscore=score;
-      isHigh=true;
-  }
+
   document.getElementById("highscore").innerHTML=highscore;
 
   if(seconds==60)
@@ -104,12 +100,12 @@ function stop_timing()
   clearInterval(myvar);
 }
 
-function randomT(maxTime,minTime)
+function randomT(maxTime,minTime)                                           //Function to return a random time with bounds as mentioned
 {
     return Math.floor(Math.random()*(maxTime-minTime)+minTime);
 }
 
-function randomHole(holes)
+function randomHole(holes)                                                  //Function to return a random hole(div) for moles to peep
 {
     var index=Math.floor(Math.random()*holes.length);
     const hole=holes[index];
@@ -123,7 +119,7 @@ function randomHole(holes)
 
 var lastSuperHole;
 
-function randomSuperMole(holes)
+function randomSuperMole(holes)                                             //Function to return a random hole(div) for super moles(moles worth 2 pts)
 {
     var superIndex=Math.floor(Math.random()*holes.length);
     const superMole=holes[superIndex];
@@ -135,9 +131,9 @@ function randomSuperMole(holes)
     return superMole;
 }
 
-var hole_mole, super_hole, bomb_hole;
+var hole_mole, super_hole, bomb_hole;                                       //Variables store current holes(divs) in which each object would peep through
 
-function mole_movement(){
+function mole_movement(){                                                   //Function for peep action
 
     document.getElementById("game").removeEventListener("click",mole_movement);
     const time=randomT(peep_minTime,peep_maxtime);
@@ -145,14 +141,14 @@ function mole_movement(){
     super_hole=randomSuperMole(holes);
     bomb_hole=randomSuperMole(holes);
 
-    for(var check=0;check<moles.length;check++)
+    for(var check=0;check<moles.length;check++)                             //Adds event listeners to necessary hit functions when mole is whacked
     {
         moles[check].addEventListener("click",hit);
         super_moles[check].addEventListener("click",superhit);
         bombs[check].addEventListener("click",bomb_hit);
     }
 
-    if(hole_mole==super_hole || hole_mole==bomb_hole || super_hole==bomb_hole)
+    if(hole_mole==super_hole || hole_mole==bomb_hole || super_hole==bomb_hole)      //Condition so that two moles do not peep from the same hole
     {
         mole_movement();
     }
@@ -170,7 +166,7 @@ function mole_movement(){
     },time*1);
 }}
 
-function hit()
+function hit()                                                                //Function mentions aftermath of whacking a mole
 {
     sound.play();
     for(var check=0;check<moles.length;check++)
@@ -182,7 +178,7 @@ function hit()
     document.getElementById("scores").innerHTML=score;
 }
 
-function superhit()
+function superhit()                                                           //Function mentions afterath of whacking a super mole
 {
     sound.play();
     for(var check=0;check<moles.length;check++)
@@ -195,7 +191,7 @@ function superhit()
 
 }
 
-function bomb_hit()
+function bomb_hit()                                                            //Function mentions aftermath of whacking a bomb
 {
     explode.play();
     for(var check2=0;check2<moles.length;check2++)
@@ -207,12 +203,19 @@ function bomb_hit()
     document.getElementById("scores").innerHTML=score;
 }
 
-function finished(){
+function finished(){                                                            //Function concerned with display screen after game is over(i.e. 1 minute is passed)
     sound1.play();
     document.getElementById("gameHeader").style.display="none";
     document.getElementById("header").style.display="block";
     document.getElementById("finished").style.display="block";
     document.getElementById("mainArea").style.display="none";
+
+    if(highscore<score)
+    {
+        highscore=score;
+        isHigh=true;
+    }
+
     if(isHigh==true)
     {
         document.getElementById("isHigh").style.display="block";
@@ -229,11 +232,12 @@ function finished(){
     else{
         document.getElementById("level").innerHTML="Legendary Level";
     }
+    document.getElementById("hscore").innerHTML=highscore;
     performance();
 }
 
-var checkrr=[];                                                             
-  function generate_leaderboard()                                             
+var checkrr=[];                                                                 //Array to store 5 highest scores stored in local storage                                                              
+  function generate_leaderboard()                                               //Function to generateleaderboard at the end
   {
     document.getElementById("finished").style.display="none";
     document.getElementById("leaderboard").style.display="block";
@@ -268,7 +272,7 @@ var checkrr=[];
     }
   }
 
-function performance(){
+function performance(){                                                     //Function to provide remarks on performance of the player based on the score
     if(score>60)
     {
         document.getElementById("performance").innerHTML="GODLIKE";

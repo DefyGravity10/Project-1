@@ -10,6 +10,7 @@ html {
     font-size: 35px;
     font-style: italic;
     border: 10px outset brown;
+    background-color: lightgreen;
 
 }
 
@@ -35,6 +36,7 @@ body {
 
 #stats {
     font-size: 20px;
+    padding-bottom: 40px;
 }
 
 .h {
@@ -66,6 +68,8 @@ body {
     flex-wrap: wrap;
     margin: auto;
     padding-bottom: 86px;
+    background-color: darkgreen;
+    border: 5px outset brown;
 
 }
 
@@ -172,4 +176,12 @@ body {
     text-align: center;
     font-weight: bolder;
     font-size: 35px;
+}
+
+#table {
+    border: 5px outset brown;
+}
+
+#leadHead {
+    border: 5px outset brown;
 }
